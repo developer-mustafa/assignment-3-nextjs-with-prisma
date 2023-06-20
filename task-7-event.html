@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  
+<head>
+  <title>Interactive Webpage</title>
+  <script>
+    function displayCoordinates(event) {
+      const x = event.clientX;
+      const y = event.clientY;
+      alert("Coordinates: (" + x + ", " + y + ")");
+    }
+
+    function displayKeyCode(event) {
+      const keyCode = event.keyCode;
+      alert("Key Code: " + keyCode);
+    }
+
+    function changeImageSource() {
+      const image = document.getElementById("myImage");
+      image.src = "https://learnwithmustafa.vercel.app/static/media/myPic.a1dbd6ee5a0508d99f24.png";
+    }
+  </script>
+</head>
+
+<body>
+  <h1>Interactive Webpage</h1>
+  <p>Click anywhere on the page to display coordinates.</p>
+  <p>Press any key to display key code.</p>
+  <img id="myImage" width="300px" src="https://learnwithmustafa.vercel.app/static/media/mustafa2.35a7cef0833484f6fa4b.jpeg" onmouseover="changeImageSource()">
+
+  <script>
+    document.addEventListener("click", displayCoordinates);
+    document.addEventListener("keydown", displayKeyCode);
+  </script>
+</body>
+
+</html>

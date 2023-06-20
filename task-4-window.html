@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Open New Window Example</title>
+  
+</head>
+
+<body>
+
+  <button onclick="openNewWindow('https://www.google.com', 800, 600)">Open New Window</button>
+
+
+<script>
+  const openNewWindow = (url, width, height) => {
+    const left = (window.innerWidth - width) / 2;
+    const top = (window.innerHeight - height) / 2;
+
+    window.open(url, "_blank", `width=${width},height=${height},left=${left},top=${top}`);};
+</script>
+</body>
+
+</html>
+<!-- 
+When the button is clicked, the openNewWindow function is invoked with the specified URL and dimensions (800x600 in this
+case) -->

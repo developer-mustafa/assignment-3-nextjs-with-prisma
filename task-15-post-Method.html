@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Axios CRUD Example</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <style>
+    body{
+      background-color: #411c6b;
+    }
+    .operation-panel {
+      margin-bottom: 16px;
+    }
+
+    .operation-title {
+      font-size: 1.25rem;
+      font-weight: bold;
+      margin-bottom: 8px;
+      color:white;
+    }
+
+    .product-card:nth-child(even) {
+      background-color: #06a8cd; 
+    }
+
+    .product-card:nth-child(odd) {
+      background-color: #df971c; 
+    }
+
+    .product-card {
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      padding: 16px;
+      margin-bottom: 16px;
+      color: #111827;
+      text-align: center;
+    }
+
+    .product-field {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .product-field span:first-child {
+      font-weight: bold;
+    }
+
+
+ 
+
+
+  </style>
+</head>
+
+<body>
+  <div class="container mx-auto py-4">
+    <div class="operation-panel">
+      <h2 class="operation-title">Create Product</h2>
+      <div class="flex flex-wrap gap-4">
+        <input id="createProductCode" type="text" placeholder="Product Code" class="border p-2 rounded">
+        <input id="createProductName" type="text" placeholder="Product Name" class="border p-2 rounded">
+        <input id="createQuantity" type="number" placeholder="Quantity" class="border p-2 rounded">
+        <input id="createTotalPrice" type="number" placeholder="Total Price" class="border p-2 rounded">
+        <input id="createUnitPrice" type="number" placeholder="Unit Price" class="border p-2 rounded">
+        <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+          onclick="createProduct()">Create</button>
+      </div>
+    </div>
+
+    <div class="operation-panel">
+      <h2 class="operation-title">Update Product</h2>
+      <div class="flex flex-wrap gap-4">
+        <input id="updateProductId" type="text" placeholder="Product ID" class="border p-2 rounded">
+        <input id="updateProductCode" type="text" placeholder="Product Code" class="border p-2 rounded">
+        <input id="updateProductName" type="text" placeholder="Product Name" class="border p-2 rounded">
+        <input id="updateQuantity" type="number" placeholder="Quantity" class="border p-2 rounded">
+        <input id="updateTotalPrice" type="number" placeholder="Total Price" class="border p-2 rounded">
+        <input id="updateUnitPrice" type="number" placeholder="Unit Price" class="border p-2 rounded">
+        <button class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded"
+          onclick="updateProduct()">Update</button>
+      </div>
+    </div>
+
+    <div class="operation-panel">
+      <h2 class="operation-title">Delete Product</h2>
+      <div class="flex flex-wrap gap-4">
+        <input id="deleteProductId" type="text" placeholder="Product ID" class="border p-2 rounded">
+        <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+          onclick="deleteProduct()">Delete</button>
+      </div>
+    </div>
+
+    <h2 class="operation-title">Product List</h2>
+    <div id="productList"></div>
+  </div>
+
+  <script>
+    // Retrieve the product list on page load
+    getProductList();
+
+    function getProductList() {
+      axios.get('https://crud.teamrabbil.com/api/v1/ReadProduct')
+        .then(function (response) {
+          var productList = response.data;
+          displayProductList(productList);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
+
+    function createProduct() {
+      var productCode = document.getElementById('createProductCode').value;
+      var productName = document.getElementById('createProductName').value;
+      var quantity = document.getElementById('createQuantity').value;
+      var totalPrice = document.getElementById('createTotalPrice').value;
+      var unitPrice = document.getElementById('createUnitPrice').value;
+
+      var payload = {
+        Img: "",
+        ProductCode: productCode,
+        ProductName: productName,
+        Qty: quantity,
+        TotalPrice: totalPrice,
+        UnitPrice: unitPrice
+      };
+
+      axios.post('https://crud.teamrabbil.com/api/v1/CreateProduct', payload)
+        .then(function (response) {
+          console.log(response.data);
+          // Add the created product to the displayed list
+          var createdProduct = response.data.data;
+          addProductToList(createdProduct);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
+
+    function updateProduct() {
+      var productId = document.getElementById('updateProductId').value;
+      var productCode = document.getElementById('updateProductCode').value;
+      var productName = document.getElementById('updateProductName').value;
+      var quantity = document.getElementById('updateQuantity').value;
+      var totalPrice = document.getElementById('updateTotalPrice').value;
+      var unitPrice = document.getElementById('updateUnitPrice').value;
+
+      var payload = {
+        Img: "",
+        ProductCode: productCode,
+        ProductName: productName,
+        Qty: quantity,
+        TotalPrice: totalPrice,
+        UnitPrice: unitPrice
+      };
+
+      // Update the specific product in the displayed list
+      updateProductInList(productId, payload);
+
+      axios.post(`https://crud.teamrabbil.com/api/v1/UpdateProduct/${productId}`, payload)
+        .then(function (response) {
+          console.log(response.data);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
+
+    function deleteProduct() {
+      var productId = document.getElementById('deleteProductId').value;
+      // Remove the specific product from the displayed list
+      removeProductFromList(productId);
+
+      axios.get(`https://crud.teamrabbil.com/api/v1/DeleteProduct/${productId}`)
+        .then(function (response) {
+          console.log(response.data);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
+
+    function displayProductList(productList) {
+      var productListContainer = document.getElementById('productList');
+      productListContainer.innerHTML = '';
+
+      if (Array.isArray(productList)) {
+        productList.forEach(function (product) {
+          var productCard = createProductCard(product);
+          productListContainer.appendChild(productCard);
+        });
+      }
+
+      
+    }
+
+    function createProductCard(product) {
+      var productCard = document.createElement('div');
+      productCard.className = 'product-card';
+
+      var productFields = [
+        { label: 'Product Code', value: product.ProductCode },
+        { label: 'Product Name', value: product.ProductName },
+        { label: 'Quantity', value: product.Qty },
+        { label: 'Total Price', value: product.TotalPrice },
+        { label: 'Unit Price', value: product.UnitPrice }
+      ];
+
+      productFields.forEach(function (field) {
+        var fieldContainer = document.createElement('div');
+        fieldContainer.className = 'product-field';
+
+        var fieldLabel = document.createElement('span');
+        fieldLabel.textContent = field.label + ':';
+
+        var fieldValue = document.createElement('span');
+        fieldValue.textContent = field.value;
+
+        fieldContainer.appendChild(fieldLabel);
+        fieldContainer.appendChild(fieldValue);
+        productCard.appendChild(fieldContainer);
+      });
+
+      return productCard;
+    }
+
+    function addProductToList(product) {
+      var productListContainer = document.getElementById('productList');
+      var productCard = createProductCard(product);
+      productListContainer.appendChild(productCard);
+    }
+
+    function updateProductInList(productId, updatedProduct) {
+      var productListContainer = document.getElementById('productList');
+      var productCards = productListContainer.getElementsByClassName('product-card');
+
+      Array.from(productCards).forEach(function (productCard) {
+        var productCodeElement = productCard.querySelector('.product-field:nth-child(1) span:nth-child(2)');
+        if (productCodeElement.textContent === productId) {
+          var productFields = productCard.getElementsByClassName('product-field');
+          Array.from(productFields).forEach(function (field) {
+            var label = field.querySelector('span:nth-child(1)').textContent;
+            if (label in updatedProduct) {
+              var valueElement = field.querySelector('span:nth-child(2)');
+              valueElement.textContent = updatedProduct[label];
+            }
+          });
+        }
+      });
+    }
+
+    function removeProductFromList(productId) {
+      var productListContainer = document.getElementById('productList');
+      var productCards = productListContainer.getElementsByClassName('product-card');
+
+      Array.from(productCards).forEach(function (productCard) {
+        var productCodeElement = productCard.querySelector('.product-field:nth-child(1) span:nth-child(2)');
+        if (productCodeElement.textContent === productId) {
+          productCard.remove();
+        }
+      });
+    }
+
+
+    
+  </script>
+</body>
+
+</html>

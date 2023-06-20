@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>DOM Query Selector</title>
+  <style>
+    .class1 {
+      color: blue;
+    }
+
+    .class2 {
+      color: green;
+    }
+
+    #id1 {
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+  <p class="class1">This is paragraph 1 with class1.</p>
+  <p class="class2">This is paragraph 2 with class2.</p>
+  <p id="id1">This is paragraph 3 with id1.</p>
+  <p class="class1">This is paragraph 4 with class1.</p>
+  <p class="class2">This is paragraph 5 with class2.</p>
+
+  <script>
+    window.addEventListener('DOMContentLoaded', (event) => {
+        const paragraphs = document.querySelectorAll('.class1'); 
+
+        paragraphs.forEach((paragraph) => {
+          paragraph.style.color = 'red'; 
+        });
+      });
+
+  </script>
+</body>
+
+</html>

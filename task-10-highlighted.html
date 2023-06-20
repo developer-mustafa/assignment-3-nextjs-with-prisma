@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Highlight Paragraph</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #1a202c;
+    }
+
+    .highlight {
+      background-color: yellow;
+    }
+  </style>
+</head>
+
+<body class="flex items-center justify-center h-screen">
+  <p id="myParagraph" class="text-white text-center mt-4 text-5xl">This is a paragraph.</p>
+  <button onclick="toggleHighlight()" class="bg-indigo-500 text-white py-2 px-4 rounded-lg m-5">Click for Highlight Text</button>
+
+  <script>
+    function toggleHighlight() {
+      var paragraph = document.getElementById("myParagraph");
+      paragraph.classList.toggle("highlight");
+    }
+  </script>
+</body>
+
+</html>

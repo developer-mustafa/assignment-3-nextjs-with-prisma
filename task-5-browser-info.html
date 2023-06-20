@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Browser Information</title>
+</head>
+
+<body>
+  <h1>Browser Information</h1>
+
+  <script>
+    function displayBrowserInfo() {
+      const userAgent = navigator.userAgent;
+      let browserName = 'Unknown';
+      let browserVersion = 'N/A';
+
+      if (userAgent.includes('Firefox')) {
+        browserName = 'Mozilla Firefox';
+        const versionStartIdx = userAgent.indexOf('Firefox/') + 8;
+        browserVersion = userAgent.substring(versionStartIdx);
+      } else if (userAgent.includes('Chrome')) {
+        browserName = 'Google Chrome';
+        const versionStartIdx = userAgent.indexOf('Chrome/') + 7;
+        browserVersion = userAgent.substring(versionStartIdx);
+      } else if (userAgent.includes('Safari')) {
+        browserName = 'Safari';
+        const versionStartIdx = userAgent.indexOf('Version/') + 8;
+        browserVersion = userAgent.substring(versionStartIdx);
+      } else if (userAgent.includes('Edge')) {
+        browserName = 'Microsoft Edge';
+        const versionStartIdx = userAgent.indexOf('Edge/') + 5;
+        browserVersion = userAgent.substring(versionStartIdx);
+      } else if (userAgent.includes('Trident') || userAgent.includes('MSIE')) {
+        browserName = 'Internet Explorer';
+        const versionStartIdx = userAgent.indexOf('rv:') + 3;
+        browserVersion = userAgent.substring(versionStartIdx);
+      }
+
+      document.body.innerHTML += '<h2>Browser Name: ' + browserName + '</h2>';
+      document.body.innerHTML += '<h2>Browser Version: ' + browserVersion + '</h2>';
+    }
+
+    displayBrowserInfo();
+  // Call the function to display the browser information
+  </script>
+</body>
+
+</html>

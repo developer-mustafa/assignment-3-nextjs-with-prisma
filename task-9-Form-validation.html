@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Form Validation with Mustafa Rahman</title>
+  <!-- add tailwind css -->
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-gray-900 text-white">
+  <div class="container mx-auto px-4 py-8">
+    <h1 class="text-2xl font-bold mb-4 text-center">Form Validation Mustafa Rahman</h1>
+    <form onsubmit="return validateForm()" class="max-w-md mx-auto bg-gray-800 p-6 rounded-lg">
+      <div class="mb-4">
+        <label for="name" class="block text-gray-300">Name:</label>
+        <input type="text" id="name" required
+          class="w-full rounded-lg border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 placeholder-gray-400 py-2 px-4 bg-gray-700 text-gray-200">
+      </div>
+
+      <div class="mb-4">
+        <label for="email" class="block text-gray-300">Email:</label>
+        <input type="email" id="email" required
+          class="w-full rounded-lg border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 placeholder-gray-400 py-2 px-4 bg-gray-700 text-gray-200">
+      </div>
+
+      <div class="mb-4">
+        <label for="password" class="block text-gray-300">Password:</label>
+        <input type="password" id="password" required
+          class="w-full rounded-lg border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 placeholder-gray-400 py-2 px-4 bg-gray-700 text-gray-200">
+      </div>
+
+      <div class="mb-4">
+        <label for="confirmPassword" class="block text-gray-300">Confirm Password:</label>
+        <input type="password" id="confirmPassword" required
+          class="w-full rounded-lg border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 placeholder-gray-400 py-2 px-4 bg-gray-700 text-gray-200">
+      </div>
+
+      <input type="submit" value="Submit" class="bg-indigo-500 text-white py-2 px-4 rounded-lg">
+
+      <div id="error" style="color: rgb(246, 42, 42);"></div>
+    </form>
+  </div>
+
+
+
+
+
+  <script>
+    function validateForm() {
+      var name = document.getElementById("name").value;
+      var email = document.getElementById("email").value;
+      var password = document.getElementById("password").value;
+      var confirmPassword = document.getElementById("confirmPassword").value;
+      var error = document.getElementById("error");
+
+      error.innerHTML = ""; 
+
+      if (name.trim() === "") {
+        error.innerHTML += "Name should not be empty.<br>";
+      }
+
+      if (!emailIsValid(email)) {
+        error.innerHTML += "Email should be a valid email address.<br>";
+      }
+
+      if (!passwordIsValid(password)) {
+        error.innerHTML += "Password should have a minimum length of 8 characters and contain at least one uppercase letter, one lowercase letter, and one digit.<br>";
+      }
+
+      if (confirmPassword !== password) {
+        error.innerHTML += "Confirm Password should match the Password field.<br>";
+      }
+
+      return error.innerHTML === ""; 
+    }
+
+    function emailIsValid(email) {
+      var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return emailPattern.test(email);
+    }
+
+    function passwordIsValid(password) {
+      var hasUppercase = /[A-Z]/;
+      var hasLowercase = /[a-z]/;
+      var hasDigit = /[0-9]/;
+      return password.length >= 8 && hasUppercase.test(password) && hasLowercase.test(password) && hasDigit.test(password);
+    }
+  </script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Change Image Source</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    .btn:hover {
+      background-color: #6366F1;
+      transform: scale(1.05);
+    }
+
+    .round-circle {
+      border-radius: 50%;
+      border:3px solid aqua;
+      width: 200px;
+      height: 200px;
+      object-fit: cover;
+      box-shadow: greenyellow 1px 1px;
+    }
+  </style>
+</head>
+
+<body class="bg-gray-900 text-white flex items-center justify-center h-screen">
+
+  <div class="text-center">
+    <img id="myImage" src="https://learnwithmustafa.vercel.app/static/media/myPic.a1dbd6ee5a0508d99f24.png"
+      alt="Initial Image" class="mx-auto mb-4 round-circle">
+
+    <button onclick="toggleImageSource()"
+      class="bg-indigo-500 hover:bg-indigo-600 text-white py-2 px-4 rounded-lg focus:outline-none btn">Change Image
+      Source</button>
+  </div>
+
+  <script>
+    const image = document.getElementById("myImage");
+    const originalSource = "https://learnwithmustafa.vercel.app/static/media/mustafa2.35a7cef0833484f6fa4b.jpeg";
+    const alternativeSource = "https://learnwithmustafa.vercel.app/static/media/myPic.a1dbd6ee5a0508d99f24.png";
+    let toggle = false;
+
+    function toggleImageSource() {
+      if (toggle) {
+        image.src = originalSource;
+        image.alt = "Initial Image";
+        toggle = false;
+      } else {
+        image.src = alternativeSource;
+        image.alt = "New Image";
+        toggle = true;
+      }
+    }
+  </script>
+</body>
+
+</html>

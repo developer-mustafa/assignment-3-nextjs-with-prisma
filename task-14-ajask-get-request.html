@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>AJAX GET Request</title>
+  <style>
+    body {
+      background-color: #333;
+      color: #fff;
+      padding: 20px;
+    }
+
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      grid-gap: 20px;
+      margin-top: 20px;
+    }
+
+    .grid-item {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      font-size: 18px;
+      font-weight: bold;
+      color: #fff;
+      background-color: #40E0D0;
+      border-radius: 5px;
+      overflow: hidden;
+    }
+
+    .grid-item:nth-child(odd) {
+      background-color: #f91473;
+    }
+
+    .grid-item:nth-child(even) {
+      background-color: #1ca54a;
+    }
+
+    .button {
+      padding: 10px 20px;
+      background-color: #d8900a;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .button:hover {
+      background-color: #07af15;
+    }
+
+    @media screen and (max-width: 600px) {
+      .grid-container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .grid-item img {
+      max-width: 100%;
+      height: auto;
+      margin-bottom: 10px;
+      border-radius: 50%;
+      border: 5px solid #fff;
+      box-sizing: border-box;
+    }
+  </style>
+</head>
+
+<body>
+  <button class="button" onclick="sendAjaxGetRequest()">Send AJAX GET Request</button>
+
+  <div id="dataContainer" class="grid-container"></div>
+
+
+
+  <script>
+    function sendAjaxGetRequest() {
+      var xhr = new XMLHttpRequest();
+
+      xhr.open('GET', 'https://randomuser.me/api/?results=10', true);
+
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+          var response = JSON.parse(xhr.responseText);
+          displayData(response.results); // Call a function to handle the response data
+        }
+      };
+
+      xhr.send();
+    }
+
+    function displayData(data) {
+      var dataContainer = document.getElementById('dataContainer');
+      dataContainer.innerHTML = '';
+
+      data.forEach(function (item, index) {
+        var div = document.createElement('div');
+        div.className = 'grid-item'; // Set the class name for the div
+
+        if (index % 2 === 0) {
+          div.classList.add('even');
+        } else {
+          div.classList.add('odd');
+        }
+
+        var picture = document.createElement('img');
+        picture.src = item.picture.large;
+
+        var name = document.createElement('h3');
+        name.textContent = item.name.first + ' ' + item.name.last;
+
+        var email = document.createElement('p');
+        email.textContent = item.email;
+
+        div.appendChild(picture);
+        div.appendChild(name);
+        div.appendChild(email);
+
+        dataContainer.appendChild(div);
+      });
+    }
+
+  </script>
+</body>
+
+</html>
